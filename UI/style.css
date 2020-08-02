@@ -1,9 +1,9 @@
 .new-train{
 	position: absolute;
-	right: 50px;
-	bottom: 50px;
+	left: 600px;
+	top: 700px;
+	margin-bottom: 50px;
 }
-
 
 
 .data-block {
@@ -17,17 +17,20 @@
 	border-radius: 10px;
 	box-shadow: 10px 10px #9D9EA4;
 	align-content: center;
-	margin-bottom: 50px;
+
 }
 
 .data-block h1{
 	color: #141E60;
 	margin-left: 50px;
+	font-family: "Roboto", sans-serif;
+	font-weight: 600;
 }
 
 .data-block h3{
 	color: #141E60;
 	margin-left: 70px;
+	font-family: "Roboto", sans-serif;
 }
 
 .data-block input: textarea{
