@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>sih2020 BK224</title>
+	<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+	<div class="new-train">
+		<input type="submit" name="new-train" value="Train another dataset" class="boxed-btn"><br>
+		<input type="submit" name="batch-prediction" value="Batch Prediction" class="boxed-btn" style="margin-top: 20px; margin-left: 30px;">
+	</div>
+	<div class = "data-block">
+		<h1>Efficiency Calculation</h1>
+		<form method="POST" , action="/">
+			<h3>Voltage:         
+			<input type="text" name="voltage" placeholder="Voltage in Volts">
+			</h3>
+			<h3>Current:           
+			<input type="text" name="current" placeholder="Current in amphere"></h3>
+			
+			<h3>Poles:            
+			<input type="text" name="poles" placeholder="Poles"></h3>
+			
+			<h3>Frequency:       
+			<input type="text" name="frequency" placeholder="Frequency in Hz"></h3>
+			
+			<h3>Power Factor:    
+				<input type="text" name="cosq" placeholder="Power Factor">
+			</h3>
+			
+			<h3>Temperature:      
+				<input type="text" name="temperature" placeholder="Temperature in Celcius">
+			</h3>
+			
+			<h3>Load:            
+				<input type="text" name="load" placeholder="Load in percentage">
+			</h3>
+			
+			<h3>Angular Velocity:
+				<input type="text" name="angvel" placeholder="Angular Velocity in rad/s">
+			</h3>
+
+			<h3>Motor Age:       
+				<input type="text" name="age" placeholder="Motor Age in years">
+			</h3>
+			<input type="submit" class="boxed-btn" style="margin-left: 120px;">
+		</form>
+		<h4>Result : {{ result }}</h4> 
+		</div>
+</body>
+</html>
