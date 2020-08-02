@@ -1,0 +1,5 @@
+Reliability
+Efficiency
+Graphs 
+UI output
+Model training 
