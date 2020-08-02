@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+	{% extends "main.html" %}
+	{% block content %}
+	<form action="/page2" method="POST">
+		<label for="myfile">Training Data:</label>
+		<input type="file" id="myfile" name="myfile" value=""><br><br>
+		<input type="submit" name="" value="Submit">
+	</form>	
+	{% endblock %}
+</body>
+</html>
