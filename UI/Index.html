@@ -2,7 +2,8 @@
 <html>
 <head>
 	<title>sih2020 BK224</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 	<div class="new-train">
@@ -31,6 +32,10 @@
 				<input type="text" name="temperature" placeholder="Temperature in Celcius">
 			</h3>
 			
+			<h3>Load:            
+				<input type="text" name="load" placeholder="Load in percentage">
+			</h3>
+			
 			<h3>Angular Velocity:
 				<input type="text" name="angvel" placeholder="Angular Velocity in rad/s">
 			</h3>
@@ -38,8 +43,9 @@
 			<h3>Motor Age:       
 				<input type="text" name="age" placeholder="Motor Age in years">
 			</h3>
-			<input type="submit" class="boxed-btn" style="margin-left: 120px;margin-top: 30px;">
+			<input type="submit" class="boxed-btn" style="margin-left: 120px; margin-top: 30px;">
 		</form>
 		</div>
+		<h1>Result : </br> {{ result }}</h1> 
 </body>
 </html>
