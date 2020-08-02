@@ -6,10 +6,13 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+	{% extends "main.html" %}
+    {% block content %}
 	<div class="new-train">
-		<input type="submit" name="new-train" value="Train another dataset" class="boxed-btn"><br>
-		<input type="submit" name="batch-prediction" value="Batch Prediction" class="boxed-btn" style="margin-top: 20px; margin-left: 30px;">
+<!-- 		<input type="submit" name="new-train" value="Train another dataset" class="boxed-btn">
+		<a href="{{ url_for('page2') }}" class="boxed-btn">Train</a> -->
 	</div>
+
 	<div class = "data-block">
 		<h1>Efficiency Calculation</h1>
 		<form method="POST" , action="/">
@@ -46,7 +49,8 @@
 			</h3>
 			<input type="submit" class="boxed-btn" style="margin-left: 120px;">
 		</form>
-		<h4>Result : {{ result }}</h4> 
 		</div>
+		<h1>Result : </br> {{ result }}</h1> 
+		{% endblock %}
 </body>
 </html>
