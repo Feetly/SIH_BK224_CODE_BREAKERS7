@@ -18,14 +18,12 @@ def result():
         
         sd_v,sd_i,sd_t,sd_w,sd_age,a_v,a_i,a_t,a_w,a_age,a_pf,a_e = 14.450315,1.184078,14.724061,11.850687,3,425.041214,10.004947,55.033790,99.990990,5,0.65,80.63        
         
-        def warnings(pv1,t1,pi1,pf1,e):
-            outstr = "Warnings: \n"
-            if pv1 > a_v + 1.2*sd_v:
-                outstr += "High voltage \n"
-            if t1 > a_t + 1.2*sd_t:
-                outstr += "Overheating \n"
-            if pv1*pi1*pf1*e/100 > a_v*a_i*a_pf*a_e/100:
-                outstr += "Overloading \n"
+        def warnings(pv1,pi1,t1,pf1,e):
+            outstr = ""
+            if pv1 > a_v + 1.2*sd_v : outstr += "High voltage ,"
+            if t1 > a_t + 1.2*sd_t : outstr += "Overheating ,"
+            if pv1*pi1*pf1*e/100 > 1.5*a_v*a_i*a_pf*a_e/100 : outstr += "Overloading ,"
+            if len(outstr)==0 : outstr += "No Warnings"
             return outstr
                        
         def suggestions(pi1,t1,pf1,e):
