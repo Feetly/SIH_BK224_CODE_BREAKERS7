@@ -14,8 +14,7 @@ sih_model = load_model('model')
 @app.route('/', methods = ['POST'])
 
 def relia(pv1, pi1, t1, a1, w1):    
-    sd_v,sd_i,sd_t,sd_w,sd_age,a_v,a_i,a_t,a_w,a_age,a_pf,a_e = 14.450315,1.184078,14.724061,11.850687,3,425.041214,10.004947,55.033790,99.990990,5,0.65,80.63        
-
+    sd_v,sd_i,sd_t,sd_w,sd_age,a_v,a_i,a_t,a_w,a_age,a_pf,a_e = 14.450315,1.184078,14.724061,11.850687,3,425.041214,10.004947,55.033790,99.990990,5,0.65,80.63
     reliabilty = 5
     if pv1 > a_v + 1.2*sd_v:
         reliabilty -=1
@@ -36,7 +35,31 @@ def relia(pv1, pi1, t1, a1, w1):
         return 'Less Reliable'
     if reliabilty == 0:
         return 'Not Reliable'
+    
+    
+def warnings(pv1,t1,pi1,pf1,e):
+    outstr = "Warnings: \n"
+    if pv1 > a_v + 1.2*sd_v:
+        outstr += "High voltage \n"
+    if t1 > a_t + 1.2*sd_t:
+        outstr += "Overheating \n"
+    if pv1*pi1*pf1*e/100 > a_v*a_i*a_pf*a_e/100:
+        outstr += "Overloading \n"
+    return outstr
+    
+    
+def suggestions(pi1,t1,pf1,e):
+    if  e >= 85.56 and t1 < 60:
+        return "The asset is running efficiently any changes may make the asset less reliable. \n"
+    elif e >= 85.56 and t1 >= 60:
+        return "Asset cooling to" + str(t1*0.8) + "'C will give better efficiency. \n"
+    else :
+        if t1 < 60:
+            return "Efficiency can be increased by decreasing current to " + str(max(pi1*0.95,8)) + " and \ncorrecting the power factor to " + str(max(pf1*0.9,0.5)) + ". \n"
+        if t1 >= 60:
+            return "Efficiency can be increased by decreasing current to " + str(max(pi1*0.95,8)) + ", \ncorrecting the power factor to " + str(max(pf1*0.9,0.5)) + " and \nreducing the temperature to " + str(t1*0.8) + ". \n"
 
+        
 def result():
     if request.method == 'POST':
         to_predict_list = request.form.to_dict()
@@ -90,24 +113,9 @@ def result():
         c = 0
         ctr = round(50 - (3500/e),0)
         if ctr < 0 : ctr = 0
-        c = abs(ctr)
+        c = abs(ctr)            
         
-        def warnings(pv1,t1,pi1,pf1,e,w1):
-            outstr = "Warnings: \n"
-            if pv1 > a_v + 1.2*sd_v:
-                outstr += "High voltage \n"
-            if t1 > a_t + 1.2*sd_t:
-                outstr += "Overheating \n"
-            if w1 > a_w + 1.2*sd_w:
-                outstr += "Overheating \n"
-            if pv1*pi1*pf1*e/100 > a_v*a_i*a_pf*a_e/100:
-                outstr += "Overloading \n"
-            return outstr
-        
-        def suggestions():
-            
-        
-        result = "Effeciency: "+str(e)+"\n Reliability: "+str(r)+"\n Life Cyle: "+str(int(c))+" Years \n" + warnings(pv1,t1,pi1,pf1,e)
+        result = "Effeciency: "+str(e)+"\n Reliability: "+str(r)+"\n Life Cyle: "+str(int(c))+" Years \n" + warnings(pv1,t1,pi1,pf1,e) + "Suggestions:\n" + suggestions(pi1,t1,pf1,e)
         
     return render_template("index.html", result = result)
 
