@@ -140,11 +140,10 @@
 <body>
 	{% extends "main.html" %}
     {% block content %}
-	<div class="new-train">
-		<input type="submit" name="new-train" value="Train another dataset" class="boxed-btn"><br>
-		<a href="photos.html"><input type="submit" name="plots-display" value="Click to see plots" class="boxed-btn" style="margin-top: 20px;"></a><br>
-		<a href="{{ url_for('page2') }}" class="boxed-btn" style="margin-top: 20px;">Train</a>
-	</div>
+	<!-- <div class="new-train">
+		<a href="{{ url_for('photos') }}" class="boxed-btn" style="margin-top: 20px;">Click To See Plots</a></br>
+		<a href="{{ url_for('page2') }}" class="boxed-btn" style="margin-top: 20px;">Train Another Dataset</a>
+	</div> -->
 
 	<div class = "data-block">
 		<h1>Efficiency Calculation</h1>
