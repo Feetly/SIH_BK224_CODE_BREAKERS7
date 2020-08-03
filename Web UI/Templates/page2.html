@@ -123,12 +123,11 @@
 	{% extends "main.html" %}
 	{% block content %}
 	<div class=central-info>
-	  
-	<form method="POST" action="page2">
+	<form action="/page2" method="POST" enctype="multipart/form-data">
 	<center>
-	  <p><label for="myfile">Training Data:</label><p>
-      <p><input type="file" id="myfile" name="myfile" value="" class="btn-upload"><br><br></p>
-      <p><input type="submit" name="" value="Submit"  class="boxed-btn"></p>		
+		<label for="myfile">Training Data:</label>
+		<input type="file" id="myfile" name="myfile" value="" class="btn-upload"><br><br>
+		<input type="submit" name="" value="Submit"  class="boxed-btn">
 	</center>
 	</form>	
 	</div>

@@ -2,15 +2,28 @@
 <html>
 <head>
 	<title>sih2020 BK224</title>
-	<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
-	<!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
 	<style type="text/css">
 		.display-result {
 			position: absolute;
 			top: 50px;
 			left: 1020px;
 		}
+		.display-input {
+			position: absolute;
+			top: 450px;
+			left: 50px;
+		}
 
+		.display-input h1{
+			font-family: "Roboto", sans-serif;
+			color: #141E60;
+
+		}
+		.display-input h4{
+			font-family: "Roboto", sans-serif;
+			color: #141E60;
+
+		}
 		.display-result h1{
 			font-family: "Roboto", sans-serif;
 			color: #141E60;
@@ -146,10 +159,6 @@
 	</div> -->
 
 	<div class = "data-block">
-		    <form method="POST" action="" enctype="multipart/form-data">
-			  <p><input type="file" name="file"></p>
-			  <p><input type="submit" value="Submit"></p>
-			</form>
 		<h1>Efficiency Calculation</h1>
 		<form method="POST" , action="/">
 			<h3>Voltage:         
@@ -198,7 +207,18 @@
 		<h1> Warnings: </h1>
 		<h4>{{warnings}}</h4>
 		</div> 
-
+		<div class="display-input">
+		<h1>Inputs</h1>
+		<h4>voltage: {{v}}</h4>
+		<h4>current: {{i}}</h4>
+		<h4>frequency: {{f}}</h4>
+		<h4>powerfactor: {{pf}}</h4>
+		<h4>temperature: {{t}}</h4>
+		<h4>load: {{l}}</h4>
+		<h4>poles: {{p}}</h4>
+		<h4>angular velocity: {{av}}</h4>
+		<h4>age: {{a}}</h4>
+		</div>
 		{% endblock %}
 </body>
 </html>

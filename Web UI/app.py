@@ -10,13 +10,6 @@ app = Flask(__name__)
 def index():
 	return render_template("index.html")
 
-@app.route('/', methods=['POST'])
-def upload_file():
-    uploaded_file = request.files['file']
-    if uploaded_file.filename != '':
-        uploaded_file.save(uploaded_file.filename)
-    return redirect(url_for('index'))
-
 @app.route('/', methods = ['POST']) 
 def result():
     if request.method == 'POST':
@@ -97,7 +90,17 @@ def result():
             w1 = 100
         if len(a1)==0:
             a1 = 5
-            
+        
+        v = pv1
+        i = pi1
+        f = f1
+        pf = pf1
+        t = t1
+        l = l1
+        av = w1
+        a = a1
+        p = po1
+
         pv1 = float(pv1)
         pi1 = float(pi1)
         po1 = float(po1)
@@ -107,6 +110,8 @@ def result():
         l1 = float(l1)
         w1 = float(w1)
         a1 = float(a1)
+
+       
         
         pv,pi,po,f,pf,t,l,w,a= [pv1],[pi1],[po1],[f1],[pf1],[t1],[l1],[w1],[a1]
         df = pd.DataFrame(list(zip(pv,pi,po,f,pf,t,l,w,a)),columns = ['3 Phase Voltage in Volts','3 Phase Current in Amps','Poles','Frequency in Hz','Power Factor','Temperature in Celcius','% Load','Angular Velocity in rad/sec','Motor Age in Yrs'])
@@ -126,7 +131,7 @@ def result():
         suggestions = suggestions(pred_new['3 Phase Current in Amps'][0],pred_new['Temperature in Celcius'][0],pred_new['Power Factor'][0],e)
 
         
-    return render_template("index.html", efficiency = efficiency, reliability = reliability, age = age, warnings = warnings, suggestions = suggestions)
+    return render_template("index.html", efficiency = efficiency, reliability = reliability, age = age, warnings = warnings, suggestions = suggestions, v = v,i = i, f = f, pf = pf, t = t, l = l, av = av, a = a, p = p)
 
 @app.route("/page2")
 def page2():
