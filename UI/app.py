@@ -1,22 +1,21 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, redirect, url_for
 import numpy as np
 import pandas as pd
+import csv
 from pycaret.regression import *
 
 app = Flask(__name__)
 
 @app.route('/')
-def hello():
+def index():
 	return render_template("index.html")
-
-sih_model = load_model('model')
 
 @app.route('/', methods = ['POST'])
 
 def result():
     if request.method == 'POST':
         to_predict_list = request.form.to_dict()
-        
+        sih_model = load_model('model')
         def relia(pv1, pi1, t1, a1, w1):    
             sd_v,sd_i,sd_t,sd_w,sd_age,a_v,a_i,a_t,a_w,a_age = 14.450315,1.184078,14.724061,11.850687,3,425.041214,10.004947,55.033790,99.990990,5        
             
@@ -92,9 +91,69 @@ def result():
         if ctr < 0 : ctr = 0
         c = abs(ctr)
         
-        return ("Effeciency: "+str(e)+"%\nReliability: "+str(r)+"\nLife Cyle: "+str(int(c))+" Years")
+        result = "Effeciency: "+str(e)+"%\nReliability: "+str(r)+"\nLife Cyle: "+str(int(c))+" Years"
         
     return render_template("index.html", result = result)
+
+@app.route("/page2")
+def page2():
+	return render_template("page2.html")
+
+@app.route("/page2", methods = ['POST'])
+
+def data():
+    if request.method == 'POST':
+        uploaded_file = request.files['myfile']
+        if uploaded_file.filename != '':
+            uploaded_file.save(uploaded_file.filename)
+            test = pd.read_csv(uploaded_file.filename)
+            sih_model = load_model('model')
+            def relia(pv1, pi1, t1, a1, w1):
+            
+                sd_v,sd_i,sd_t,sd_w,sd_age,a_v,a_i,a_t,a_w,a_age = 14.450315,1.184078,14.724061,11.850687,3,425.041214,10.004947,55.033790,99.990990,5
+                reliabilty = 5
+                if pv1 > a_v + 1.2*sd_v:
+                    reliabilty -=1
+                if pi1 > a_i + 1.2*sd_i:
+                    reliabilty -=1
+                if t1 > a_t + 1.2*sd_t:
+                    reliabilty -=1
+                if w1 > a_w + 1.2*sd_w:
+                    reliabilty -=1
+                if a1 > a_age + sd_age:
+                    reliabilty -=1
+                if reliabilty == 5:
+                    return 'Highly Reliable'
+                if reliabilty == 3 or reliabilty == 4:
+                    return 'Moderately Reliable'
+                if reliabilty == 1 or reliabilty == 2:
+                    return 'Less Reliable'
+                if reliabilty == 0:
+                    return 'Not Reliable'
+                    
+            pred_new = predict_model(sih_model,data=test)
+            trained = test
+            
+            r,c=[],[]
+            
+            for i in range(pred_new.count()[1]):
+                r.append(relia(pred_new['3 Phase Voltage in Volts'][i],pred_new['3 Phase Current in Amps'][i],pred_new['Temperature in Celcius'][i],pred_new['Motor Age in Yrs'][i],pred_new['Angular Velocity in rad/sec'][i]))
+                e1 = pred_new['Label'][i]
+                ctr = round(50 - (3500/e1),0)
+                if ctr < 0 : ctr = 0
+                c.append(abs(ctr))
+                
+            trained['Reliability_Check'] = r
+            trained['Life Cycle in Yrs_Check'] = c
+            trained['Predicted Effeciency_Check'] = pred_new['Label']
+            
+            test.to_csv('./Dataset/Predicted Results of Test Dataset.csv',index=False)
+            
+            result = "Model Successfully Trained"
+			# return render_template("page2.html", "Model Successfully Trained")
+    return render_template("page2.html", result = result)
+
+
 
 if __name__ == '__main__':
 	#app.debug = True
