@@ -14,6 +14,29 @@ def index():
 
 @app.route('/', methods = ['POST'])
 
+        
+def warnings(pv1,t1,pi1,pf1,e):
+    outstr = "Warnings: \n"
+    if pv1 > a_v + 1.2*sd_v:
+        outstr += "High voltage \n"
+    if t1 > a_t + 1.2*sd_t:
+        outstr += "Overheating \n"
+    if pv1*pi1*pf1*e/100 > a_v*a_i*a_pf*a_e/100:
+        outstr += "Overloading \n"
+    return outstr
+    
+    
+def suggestions(pi1,t1,pf1,e):
+    if  e >= 85.56 and t1 < 60:
+        return "The asset is running efficiently any changes may make the asset less reliable. \n"
+    elif e >= 85.56 and t1 >= 60:
+        return "Asset cooling to" + str(t1*0.8) + "'C will give better efficiency. \n"
+    else :
+        if t1 < 60:
+            return "Efficiency can be increased by decreasing current to " + str(max(pi1*0.95,8)) + " and \ncorrecting the power factor to " + str(max(pf1*0.9,0.5)) + ". \n"
+        if t1 >= 60:
+            return "Efficiency can be increased by decreasing current to " + str(max(pi1*0.95,8)) + ", \ncorrecting the power factor to " + str(max(pf1*0.9,0.5)) + " and \nreducing the temperature to " + str(t1*0.8) + ". \n"
+
 def result():
     if request.method == 'POST':
         to_predict_list = request.form.to_dict()
@@ -92,12 +115,15 @@ def result():
         ctr = round(50 - (3500/e),0)
         if ctr < 0 : ctr = 0
         c = abs(ctr)
-        
+
         efficiency = "Effeciency: "+str(e)
         reliabilty = "%Reliability: "+str(r)
         age = "Life Cyle: "+str(int(c))+" Years"
+        warnings = warnings(pv1,t1,pi1,pf1,e)
+        suggestions = suggestions(pi1,t1,pf1,e)
+
         
-    return render_template("index.html", efficiency = efficiency, reliabilty = reliabilty, age = age)
+    return render_template("index.html", efficiency = efficiency, reliabilty = reliabilty, age = age, warnings = warnings, suggestions = suggestions)
 
 
 
