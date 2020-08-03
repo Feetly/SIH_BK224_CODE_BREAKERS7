@@ -5,18 +5,18 @@
 	<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
 	<!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
 	<style type="text/css">
-		.display-result h1{
+		.display-result {
 			position: absolute;
 			top: 50px;
 			left: 1020px;
+		}
+
+		.display-result h1{
 			font-family: "Roboto", sans-serif;
 			color: #141E60;
 
 		}
 		.display-result h4{
-			position: absolute;
-			top: 100px;
-			left: 1020px;
 			font-family: "Roboto", sans-serif;
 			color: #141E60;
 
@@ -142,6 +142,7 @@
     {% block content %}
 	<div class="new-train">
 		<input type="submit" name="new-train" value="Train another dataset" class="boxed-btn"><br>
+		<a href="photos.html"><input type="submit" name="plots-display" value="Click to see plots" class="boxed-btn" style="margin-top: 20px;"></a><br>
 		<a href="{{ url_for('page2') }}" class="boxed-btn" style="margin-top: 20px;">Train</a>
 	</div>
 
@@ -183,8 +184,18 @@
 		</form>
 		</div>
 		<div class="display-result">
-		<h1>Results:  </h1><h4> {{ result }} </h4>
+		<h1>Results:  </h1>
+		<h4> Efficiency: {{ efficiency }} </h4>
+		<h4> Reliability: {{ reliability }} </h4>
+		<h4> Life cycle of motor: {{ age }} </h4>
+
+		<h1> Suggestions: </h1>
+		<h4>{{suggestions}}</h4>
+
+		<h1> Warnings: </h1>
+		<h4>{{warnings}}</h4>
 		</div> 
+
 		{% endblock %}
 </body>
 </html>
